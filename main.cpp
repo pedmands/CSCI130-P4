@@ -205,12 +205,12 @@ float GetBalloonsCost(int numBaloons) {
 }
 
 // GetNapkinsCost
-float GetnNapkinsCost(int napkinPacks, int NAPKINS_PER_PACK) {
+float GetNapkinsCost(int napkinPacks, int NAPKINS_PER_PACK) {
     int numNapkins = napkinPacks * NAPKINS_PER_PACK; // Total number of napkins
     float costPerPack; // Cost per napkin pack
     float total;
     
-    if (numNapkins > 300){
+    if (numNapkins >= 300){
         costPerPack = 1.50;
     }
     else if (numNapkins > 100) {
@@ -276,14 +276,14 @@ void PrintReport(string fileName, string name, int numBalloons, float balloonsCo
     
     partyReport << endl;
     partyReport << "Report for " << name << "'s birthday party:" << endl << endl;
-    partyReport << "  Balloons:       " << setw(3) << numBalloons << "   $ " << setw(6) << balloonsCost << endl;
-    partyReport << "  Gift Bags:      " << setw(3) << numBags << "   $ " << setw(6) << giftBagsCost << endl;
-    partyReport << "  Napkin Packs:   " << setw(3) << napkinPacks << "   $ " << setw(6) << napkinsCost << endl;
-    partyReport << "  Plate Packs:    " << setw(3) << platePacks << "   $ " << setw(6) << platesCost << endl;
-    partyReport << "  Pizzas:         " << setw(3) << pizzas << "   $ " << setw(6) << pizzaCost << endl;
-    partyReport << "  Juicebox Packs: " << setw(3) << juiceBoxPacks << "   $ " << setw(6) << juiceCost << endl;
-    partyReport << "  Cake:           " << setw(3) << "1" << "   $ " << setw(6) << cakeCost << endl;
-    partyReport << "  Total cost:           $ " << setw(6) << total << endl << endl;
+    partyReport << "  Balloons:       " << setw(4) << numBalloons << "   $ " << setw(6) << balloonsCost << endl;
+    partyReport << "  Gift Bags:      " << setw(4) << numBags << "   $ " << setw(6) << giftBagsCost << endl;
+    partyReport << "  Napkin Packs:   " << setw(4) << napkinPacks << "   $ " << setw(6) << napkinsCost << endl;
+    partyReport << "  Plate Packs:    " << setw(4) << platePacks << "   $ " << setw(6) << platesCost << endl;
+    partyReport << "  Pizzas:         " << setw(4) << pizzas << "   $ " << setw(6) << pizzaCost << endl;
+    partyReport << "  Juicebox Packs: " << setw(4) << juiceBoxPacks << "   $ " << setw(6) << juiceCost << endl;
+    partyReport << "  Cake:           " << setw(4) << "1" << "   $ " << setw(6) << cakeCost << endl;
+    partyReport << "  Total cost:            $ " << setw(6) << total << endl << endl;
     partyReport << string(40, '*') << endl;
     
     // Close the report file
