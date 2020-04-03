@@ -20,7 +20,7 @@ string GetFileName();
 float GetBalloonsCost(int numBaloons);
 float GetNapkinsCost(int napkinPacks, int NAPKINS_PER_PACK);
 float GetPlatesCost(int platePacks, int PLATES_PER_PACK);
-float CalcCakeCost(int fullSheets, float COST_PER_SHEET_CAKE, bool halfSheet, float COST_PER_HALF_SHEET);
+float CalcCakeCost(int remainingGuests, int fullSheets, float COST_PER_SHEET_CAKE, bool halfSheet, float COST_PER_HALF_SHEET);
 
 void PrintReport(string fileName, string name, int numBalloons, float balloonsCost, int numBags, float giftBagsCost, int napkinPacks, float napkinsCost, int platePacks, float platesCost, int pizzas, float pizzaCost, int juiceBoxPacks, float juiceCost, float cakeCost, float total);
 
@@ -93,24 +93,14 @@ int main() {
     int juiceBoxPacks = ceil((children * 2) / float(JUICE_BOXES_PER_PACK)); // Each child gets 2 juice boxes. JUICE_BOXES_PER_PACK converted to float to prevent data loss for rounding up.
     float juiceCost = juiceBoxPacks * COST_PER_JUICE_PACK;
     
-    bool halfSheet;
-    
-    if (guests > 0)
-        // We need at least a half sheet of cake
-        halfSheet = true;
+    // We need at least a half sheet of cake
+    bool halfSheet = true;
     
     // Calculate number of full sheets of cake
     int fullSheets = guests / 50;
-    int remaingingGuests = guests % 50;
+    int remainingGuests = guests % 50;
     
-    
-    if (remaingingGuests > 25) {
-        halfSheet = false;
-        
-        fullSheets += 1;
-    }
-    
-    cakeCost = CalcCakeCost(fullSheets, COST_PER_SHEET_CAKE, halfSheet, COST_PER_HALF_SHEET);
+    cakeCost = CalcCakeCost(remainingGuests, fullSheets, COST_PER_SHEET_CAKE, halfSheet, COST_PER_HALF_SHEET);
     
     // Calculate the total cost
     float total = balloonsCost + giftBagsCost + napkinsCost + platesCost + pizzaCost + juiceCost + cakeCost;
@@ -118,7 +108,22 @@ int main() {
     // --------------------- Output ---------------------
     
     // Print the results to the ofstream output file partyReport.out, located in the same directory as the program.
-    PrintReport(fileName, name, numBalloons, balloonsCost, numBags, giftBagsCost, napkinPacks, napkinsCost, platePacks, platesCost, pizzas, pizzaCost, juiceBoxPacks, juiceCost, cakeCost, total);
+    PrintReport(fileName,
+                name,
+                numBalloons,
+                balloonsCost,
+                numBags,
+                giftBagsCost,
+                napkinPacks,
+                napkinsCost,
+                platePacks,
+                platesCost,
+                pizzas,
+                pizzaCost,
+                juiceBoxPacks,
+                juiceCost,
+                cakeCost,
+                total);
     
     return 0;
 }
@@ -234,8 +239,23 @@ float GetPlatesCost(int platePacks, int PLATES_PER_PACK) {
     return total;
 }
 
-float CalcCakeCost(int fullSheets, float COST_PER_SHEET_CAKE, bool halfSheet, float COST_PER_HALF_SHEET) {
-    return 0;
+float CalcCakeCost(int remainingGuests, int fullSheets, float COST_PER_SHEET_CAKE, bool halfSheet, float COST_PER_HALF_SHEET) {
+    float cakeCost;
+    
+    if (remainingGuests > 25) {
+       halfSheet = false;
+       fullSheets += 1;
+    }
+    
+    cakeCost = fullSheets * COST_PER_SHEET_CAKE;
+    
+    // If we bought a half sheet, we add the cost here
+    if (halfSheet) {
+        cakeCost += COST_PER_HALF_SHEET;
+    }
+    
+    return cakeCost;
+    
 }
 
 // --------------------- Utility Functions ---------------------
