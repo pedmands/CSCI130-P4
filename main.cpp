@@ -14,13 +14,13 @@ using namespace std;
 string GetName();
 int GetAge();
 int GetGuests();
-float GetCakeCost();
+//float GetCakeCost();
 string GetFileName();
 
 float GetBalloonsCost(int numBaloons);
 float GetNapkinsCost(int napkinPacks, int NAPKINS_PER_PACK);
 float GetPlatesCost(int platePacks, int PLATES_PER_PACK);
-float CalcuCakeCost();
+float CalcCakeCost(int fullSheets, float COST_PER_SHEET_CAKE, bool halfSheet, float COST_PER_HALF_SHEET);
 
 void PrintReport(string fileName, string name, int numBalloons, float balloonsCost, int numBags, float giftBagsCost, int napkinPacks, float napkinsCost, int platePacks, float platesCost, int pizzas, float pizzaCost, int juiceBoxPacks, float juiceCost, float cakeCost, float total);
 
@@ -29,7 +29,7 @@ int main() {
     string name; // Birthday child's name, to be entered by user.
     int age; // Birthday child's age, to be entered by user.
     int guests; // Number of guests invited, to be entered by user.
-    float cakeCost; // Cost of cake, to be entered by user
+    float cakeCost; // Cost of cake
     string fileName; // Name of output file, to be entered by user.
     
     // Constant declarations
@@ -41,6 +41,8 @@ int main() {
     int SLICES_PER_PIZZA = 12; // Number of slices per pizza
     float COST_PER_JUICE_PACK = 4.25; // Cost per juice pack
     int JUICE_BOXES_PER_PACK = 10; // Number of juice boxes per pack
+    float COST_PER_SHEET_CAKE = 15.75; // Price of each sheet cake
+    float COST_PER_HALF_SHEET = 10.00; // Price of half sheet cake
     
     // Welcome the user
     cout << "Welcome to the Birthday Party Cost Calculator" << endl << endl;
@@ -58,7 +60,6 @@ int main() {
     
     // Get the cost of the cake from the user
     // cakeCost = GetCakeCost();
-    cakeCost =
     
     // Get the file name for the output file from the user
     fileName = GetFileName();
@@ -91,6 +92,25 @@ int main() {
     // Calculate number and cost of juice box packs
     int juiceBoxPacks = ceil((children * 2) / float(JUICE_BOXES_PER_PACK)); // Each child gets 2 juice boxes. JUICE_BOXES_PER_PACK converted to float to prevent data loss for rounding up.
     float juiceCost = juiceBoxPacks * COST_PER_JUICE_PACK;
+    
+    bool halfSheet;
+    
+    if (guests > 0)
+        // We need at least a half sheet of cake
+        halfSheet = true;
+    
+    // Calculate number of full sheets of cake
+    int fullSheets = guests / 50;
+    int remaingingGuests = guests % 50;
+    
+    
+    if (remaingingGuests > 25) {
+        halfSheet = false;
+        
+        fullSheets += 1;
+    }
+    
+    cakeCost = CalcCakeCost(fullSheets, COST_PER_SHEET_CAKE, halfSheet, COST_PER_HALF_SHEET);
     
     // Calculate the total cost
     float total = balloonsCost + giftBagsCost + napkinsCost + platesCost + pizzaCost + juiceCost + cakeCost;
@@ -137,16 +157,17 @@ int GetGuests() {
     return guests;
 }
 
+// vvv NOW IN UTILITY FUNCTIONS vvv
 // GetCakeCost() gets the cost of the birthday cake from the user and returns it to main()
 // Precondition: none
 // Postcondition: returns cakeCost
-float GetCakeCost() {
-    float cakeCost;
-    cout << "How much is the birthday cake? $";
-    cin >> cakeCost;
-    cin.ignore(256, '\n');
-    return cakeCost;
-}
+//float GetCakeCost() {
+//    float cakeCost;
+//    cout << "How much is the birthday cake? $";
+//    cin >> cakeCost;
+//    cin.ignore(256, '\n');
+//    return cakeCost;
+//}
 
 // GetFileName() gets the name of the output file from the user and returns it to main()
 // Precondition: none
@@ -197,8 +218,8 @@ float GetnNapkinsCost(int napkinPacks, int NAPKINS_PER_PACK) {
     return total;
 }
 
-// GetNapkinsCost
-float GetnPlatesCost(int platePacks, int PLATES_PER_PACK) {
+// GetPlatesCost
+float GetPlatesCost(int platePacks, int PLATES_PER_PACK) {
     int numPlates = platePacks * PLATES_PER_PACK; // Total number of napkins
     float costPerPack; // Cost per napkin pack
     float total;
@@ -211,6 +232,10 @@ float GetnPlatesCost(int platePacks, int PLATES_PER_PACK) {
     }
     total = platePacks * costPerPack;
     return total;
+}
+
+float CalcCakeCost(int fullSheets, float COST_PER_SHEET_CAKE, bool halfSheet, float COST_PER_HALF_SHEET) {
+    return 0;
 }
 
 // --------------------- Utility Functions ---------------------
