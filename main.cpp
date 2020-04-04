@@ -20,7 +20,6 @@ string GetFileName();
 float GetBalloonsCost(int numBaloons);
 float GetNapkinsCost(int napkinPacks, int NAPKINS_PER_PACK);
 float GetPlatesCost(int platePacks, int PLATES_PER_PACK);
-float CalcCakeCost(int remainingGuests, int fullSheets, float COST_PER_SHEET_CAKE, bool halfSheet, float COST_PER_HALF_SHEET);
 
 void PrintReport(int fullSheets, bool halfSheet, string fileName, string name, int numBalloons, float balloonsCost, int numBags, float giftBagsCost, int napkinPacks, float napkinsCost, int platePacks, float platesCost, int pizzas, float pizzaCost, int juiceBoxPacks, float juiceCost, float halfSheetCost, float fullSheetCost, float total);
 
@@ -174,7 +173,6 @@ int GetGuests() {
     return guests;
 }
 
-// vvv NOW IN UTILITY FUNCTIONS vvv
 // GetCakeCost() gets the cost of the birthday cake from the user and returns it to main()
 // Precondition: none
 // Postcondition: returns cakeCost
@@ -249,25 +247,6 @@ float GetPlatesCost(int platePacks, int PLATES_PER_PACK) {
     }
     total = platePacks * costPerPack;
     return total;
-}
-
-float CalcCakeCost(int remainingGuests, int fullSheets, float COST_PER_SHEET_CAKE, bool halfSheet, float COST_PER_HALF_SHEET) {
-    float cakeCost;
-    
-    if (remainingGuests > 25) {
-       halfSheet = false;
-       fullSheets += 1;
-    }
-    
-    cakeCost = fullSheets * COST_PER_SHEET_CAKE;
-    
-    // If we bought a half sheet, we add the cost here
-    if (halfSheet) {
-        cakeCost += COST_PER_HALF_SHEET;
-    }
-    
-    return cakeCost;
-    
 }
 
 // --------------------- Utility Functions ---------------------
